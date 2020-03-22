@@ -131,7 +131,14 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="5dp"/>
+            android:layout_height="8dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="More"
+            android:textSize="14sp"
+            style="@style/Widget.MaterialComponents.Button.TextButton"/>
 
     </LinearLayout>
 
