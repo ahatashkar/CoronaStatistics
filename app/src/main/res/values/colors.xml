@@ -3,4 +3,27 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+
+    <color name="blackPure">#000000</color>
+    <color name="blackText1">#DE000000</color>
+    <color name="blackText2">#99000000</color>
+    <color name="blackText3">#61000000</color>
+    <color name="greenText">#4CAF50</color>
+    <color name="divider2">#DADCE0</color>
+    <color name="background2">#FAFAFA</color>
+    <color name="background6">#2C98F0</color>
+    <color name="background7">#E5E5E5</color>
+    <color name="background8">#E0F7FA</color>
+    <color name="background9">#E0E0E0</color>
+    <color name="background10">#F2F5FB</color>
+    <color name="background11">#141414</color>
+    <color name="background12">#3D64DD17</color>
+    <color name="ticketBackground">#DADADA</color>
+    <color name="red">#EF5350</color>
+    <color name="red2">#FF1744</color>
+    <color name="yellow">#FFCA28</color>
+    <color name="orange">#FFA000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="blue">#00BCD4</color>
 </resources>

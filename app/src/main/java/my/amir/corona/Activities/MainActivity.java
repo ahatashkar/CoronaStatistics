@@ -1,7 +1,12 @@
 package my.amir.corona.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import my.amir.corona.Adapter.CountryAdapter;
 import my.amir.corona.Global;
+import my.amir.corona.JsonClasses.Countries.CountriesResponse;
+import my.amir.corona.JsonClasses.Countries.Country;
 import my.amir.corona.R;
 import my.amir.corona.Retrofit.CallbackHandler;
 import my.amir.corona.Retrofit.Services;
@@ -14,23 +19,38 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
+
+    RecyclerView recyclerView;
+    CountryAdapter adapter;
+    RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getTransactions();
+        recyclerView = findViewById(R.id.my_recycler_view);
+
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        adapter = new CountryAdapter(new ArrayList<Country>());
+        recyclerView.setAdapter(adapter);
+
+        getCountries();
 
 
     }
 
-    void getTransactions() {
+    void getCountries() {
 
 
         Services service = Global.retrofit.create(Services.class);
-        Call<ResponseBody> call = service.getAffected();
+        Call<ResponseBody> call = service.getCountries();
 
         call.enqueue(new CallbackHandler<ResponseBody>() {
             @Override
@@ -39,14 +59,15 @@ public class MainActivity extends AppCompatActivity {
                 String string;
                 Gson gson = new Gson();
 
-//                CategoryServiceResponse categoryServiceResponse;
+                CountriesResponse countriesResponse;
 
                 try {
                     string = response.body().string();
-//                    categoryServiceResponse = gson.fromJson(string, CategoryServiceResponse.class);
+                    countriesResponse = gson.fromJson(string, CountriesResponse.class);
+
+                    adapter.updateList(countriesResponse.getCountries_stat());
 
 
-                    Log.v("asf","af");
 
                 } catch (Exception e) {
                     e.printStackTrace();

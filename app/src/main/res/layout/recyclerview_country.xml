@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="@color/background2"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="8dp">
+
+        <TextView
+            android:id="@+id/name_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="country name"
+            android:textSize="18sp"
+            android:textColor="@color/blackText1"
+            android:textStyle="bold"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cases:"
+                android:textSize="14sp"
+                android:textColor="@color/blackText1"/>
+
+            <TextView
+                android:id="@+id/cases_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="cases"
+                android:textSize="14sp"
+                android:textColor="@color/blackText1"/>
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider2"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp"/>
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Recovered:"
+                android:textSize="14sp"
+                android:textColor="@color/blackText1"/>
+
+            <TextView
+                android:id="@+id/recovered_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="recovered"
+                android:textSize="14sp"
+                android:textColor="@color/blackText1"/>
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider2"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp"/>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Death:"
+                android:textSize="14sp"
+                android:textColor="@color/blackText1"/>
+
+            <TextView
+                android:id="@+id/death_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="death"
+                android:textSize="14sp"
+                android:textColor="@color/blackText1"/>
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp"/>
+
+    </LinearLayout>
+
+
+
+</androidx.cardview.widget.CardView>
