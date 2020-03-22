@@ -12,10 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.DetailActivity"></activity>
+        <activity android:name=".Activities.DetailActivity"
+            android:screenOrientation="fullSensor">
+
+        </activity>
         <activity
             android:name=".Activities.MainActivity"
-            android:label="Analytics"
             android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

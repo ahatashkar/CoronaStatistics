@@ -44,6 +44,12 @@ public class MainActivity extends AppCompatActivity {
         adapter = new CountryAdapter(new ArrayList<Country>());
         recyclerView.setAdapter(adapter);
 
+        try {
+            getSupportActionBar().setTitle("Analytics");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         getCountries();
 
 
