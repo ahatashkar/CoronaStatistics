@@ -1,6 +1,7 @@
 package my.amir.corona.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import my.amir.corona.Adapter.CountryAdapter;
@@ -14,12 +15,15 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -46,8 +50,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.about:
-                //add the function to perform here
-                Toast.makeText(MainActivity.this,"about us",Toast.LENGTH_SHORT).show();
+                showAboutDialog();
                 return(true);
         }
 
@@ -139,5 +142,26 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    void showAboutDialog(){
+
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setCancelable(true);
+
+        try {
+
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_about);
+            int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90);
+            Window window = dialog.getWindow();
+            window.setLayout(width, CardView.LayoutParams.WRAP_CONTENT);
+            window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        dialog.show();
+
+    }
 
 }
