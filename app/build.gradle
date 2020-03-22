@@ -6,6 +6,14 @@ android {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
+    signingConfigs {
+        config {
+            keyAlias 'key0'
+            keyPassword '11122817amir'
+            storeFile file('/home/amir/AndroidStudioProjects/Corona/corona.jks')
+            storePassword 'P11122817amir'
+        }
+    }
 
     compileSdkVersion 29
 
