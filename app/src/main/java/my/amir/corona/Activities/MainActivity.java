@@ -17,6 +17,8 @@ import retrofit2.Response;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -30,6 +32,29 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     CountryAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.about:
+                //add the function to perform here
+                Toast.makeText(MainActivity.this,"about us",Toast.LENGTH_SHORT).show();
+                return(true);
+        }
+
+        return(super.onOptionsItemSelected(item));
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
