@@ -13,10 +13,12 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import com.google.gson.Gson;
 
 public class DetailActivity extends AppCompatActivity {
 
+    LinearLayout main_linearLayout;
     TextView name_textView;
     TextView cases_textView;
     TextView newCase_textView;
@@ -34,6 +37,8 @@ public class DetailActivity extends AppCompatActivity {
     TextView per1m_textView;
     TextView date_textView;
 
+    ProgressDialog dialog;
+
     String countryName = null;
 
     @Override
@@ -41,6 +46,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        main_linearLayout = findViewById(R.id.main_linearLayout);
         name_textView = findViewById(R.id.name_textView);
         cases_textView = findViewById(R.id.cases_textView);
         newCase_textView = findViewById(R.id.newCase_textView);
@@ -50,6 +56,9 @@ public class DetailActivity extends AppCompatActivity {
         recovered_textView = findViewById(R.id.recovered_textView);
         per1m_textView = findViewById(R.id.per1m_textView);
         date_textView = findViewById(R.id.date_textView);
+
+        main_linearLayout.setVisibility(View.GONE);
+
 
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -87,6 +96,8 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     void getCountryDetail() {
+
+        dialog = ProgressDialog.show(DetailActivity.this,"loading","please wait...",false,false);
 
         Services service = Global.retrofit.create(Services.class);
         Call<ResponseBody> call = service.getLatestStatCountry(countryName);
@@ -140,6 +151,9 @@ public class DetailActivity extends AppCompatActivity {
         recovered_textView.setText(detail.getTotal_recovered());
         per1m_textView.setText(detail.getTotal_cases_per1m());
         date_textView.setText(detail.getRecord_date());
+
+        dialog.dismiss();
+        main_linearLayout.setVisibility(View.VISIBLE);
 
     }
 }
