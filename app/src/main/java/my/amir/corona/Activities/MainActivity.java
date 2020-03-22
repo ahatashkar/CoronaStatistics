@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
     void getCountries() {
 
-
         Services service = Global.retrofit.create(Services.class);
         Call<ResponseBody> call = service.getCountries();
 
