@@ -9,6 +9,7 @@ import retrofit2.http.Query;
 import static my.amir.corona.Retrofit.Routes.affected;
 import static my.amir.corona.Retrofit.Routes.allCountries;
 import static my.amir.corona.Retrofit.Routes.historyByCountry;
+import static my.amir.corona.Retrofit.Routes.latestStatCountry;
 
 public interface Services {
 
@@ -20,5 +21,8 @@ public interface Services {
 
     @GET(allCountries)
     Call<ResponseBody> getCountries();
+
+    @GET(latestStatCountry)
+    Call<ResponseBody> getLatestStatCountry(@Query("country") String country);
 
 }

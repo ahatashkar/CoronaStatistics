@@ -17,7 +17,7 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.myViewHo
 
 
     List<Country> list;
-    CountryAdapter.onSendClickListener onSendClickListener;
+    CountryAdapter.onMoreClickListener onMoreClickListener;
     Context context;
 
 //    public int mSelectedItem = -1;
@@ -68,6 +68,7 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.myViewHo
         TextView cases_textView;
         TextView recovered_textView;
         TextView death_textView;
+        Button more_button;
 
         myViewHolder(View itemView) {
             super(itemView);
@@ -76,8 +77,9 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.myViewHo
             cases_textView = itemView.findViewById(R.id.cases_textView);
             recovered_textView = itemView.findViewById(R.id.recovered_textView);
             death_textView = itemView.findViewById(R.id.death_textView);
+            more_button = itemView.findViewById(R.id.more_button);
 
-//            send_button.setOnClickListener(this);
+            more_button.setOnClickListener(this);
 
 //            itemView.setOnClickListener(this);
 
@@ -86,19 +88,19 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.myViewHo
         @Override
         public void onClick(View v) {
 
-//            if(v.getId() == send_button.getId()){
-//                onSendClickListener.onClickListener(v, getAdapterPosition());
-//            }
+            if(v.getId() == more_button.getId()){
+                onMoreClickListener.onClickListener(v, getAdapterPosition());
+            }
 
         }
     }
 
-    public interface onSendClickListener {
+    public interface onMoreClickListener {
         void onClickListener(View view, int position);
     }
 
-    public void setOnItemSendClickListener(final CountryAdapter.onSendClickListener clickListener){
-        this.onSendClickListener = clickListener;
+    public void setOnItemMoreClickListener(final CountryAdapter.onMoreClickListener clickListener){
+        this.onMoreClickListener = clickListener;
     }
 
 

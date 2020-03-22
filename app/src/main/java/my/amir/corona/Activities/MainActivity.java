@@ -14,8 +14,11 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -66,6 +69,21 @@ public class MainActivity extends AppCompatActivity {
 
                     adapter.updateList(countriesResponse.getCountries_stat());
 
+                    adapter.setOnItemMoreClickListener(new CountryAdapter.onMoreClickListener() {
+                        @Override
+                        public void onClickListener(View view, int position) {
+
+                            try {
+
+                                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                                intent.putExtra("countryName", adapter.getList().get(position).getCountry_name());
+                                startActivity(intent);
+
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }
+                    });
 
 
                 } catch (Exception e) {

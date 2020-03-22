@@ -134,6 +134,7 @@
             android:layout_height="8dp"/>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/more_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="More"
