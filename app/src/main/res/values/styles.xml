@@ -6,12 +6,13 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorPrimary">@color/blackText1</item>
         <item name="android:itemTextAppearance">@style/TextAppearance</item>
     </style>
 
     <style name="TextAppearance">
         <item name="android:textColor">@android:color/black</item>
     </style>
+
 
 </resources>

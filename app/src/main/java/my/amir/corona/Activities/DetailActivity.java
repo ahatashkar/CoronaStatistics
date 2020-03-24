@@ -6,6 +6,7 @@ import my.amir.corona.Global;
 import my.amir.corona.JsonClasses.Countries.CountriesResponse;
 import my.amir.corona.JsonClasses.Details.CountryDetail;
 import my.amir.corona.JsonClasses.Details.DetailResponse;
+import my.amir.corona.JsonClasses.History.HistoryResponse;
 import my.amir.corona.R;
 import my.amir.corona.Retrofit.CallbackHandler;
 import my.amir.corona.Retrofit.Services;
@@ -23,6 +24,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -36,6 +44,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView recovered_textView;
     TextView per1m_textView;
     TextView date_textView;
+    GraphView graph;
 
     ProgressDialog dialog;
 
@@ -56,6 +65,7 @@ public class DetailActivity extends AppCompatActivity {
         recovered_textView = findViewById(R.id.recovered_textView);
         per1m_textView = findViewById(R.id.per1m_textView);
         date_textView = findViewById(R.id.date_textView);
+        graph = findViewById(R.id.graph);
 
         main_linearLayout.setVisibility(View.GONE);
 
@@ -80,8 +90,33 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             getCountryDetail();
+            getCountryHistory();
         }
 
+        Calendar calendar = Calendar.getInstance();
+        Date d1 = calendar.getTime();
+        calendar.add(Calendar.DATE, 1);
+        Date d2 = calendar.getTime();
+        calendar.add(Calendar.DATE, 1);
+        Date d3 = calendar.getTime();
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
+                new DataPoint(d1,1),
+                new DataPoint(d2,4),
+                new DataPoint(d3,5),
+
+        });
+
+        graph.addSeries(series);
+
+//        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(DetailActivity.this));
+//        graph.getGridLabelRenderer().setNumHorizontalLabels(3);
+
+//        graph.getViewport().setMinX(d1.getTime());
+//        graph.getViewport().setMaxX(d3.getTime());
+//        graph.getViewport().setXAxisBoundsManual(true);
+
+//        graph.getGridLabelRenderer().setHumanRounding(false);
 
     }
 
@@ -155,5 +190,46 @@ public class DetailActivity extends AppCompatActivity {
         dialog.dismiss();
         main_linearLayout.setVisibility(View.VISIBLE);
 
+    }
+
+    void getCountryHistory() {
+
+        Services service = Global.retrofit.create(Services.class);
+        Call<ResponseBody> call = service.getCountryHistory(countryName);
+
+        call.enqueue(new CallbackHandler<ResponseBody>() {
+            @Override
+            public void onSuccess(Response<ResponseBody> response) {
+
+                String string;
+                Gson gson = new Gson();
+
+                HistoryResponse historyResponse;
+
+                try {
+                    string = response.body().string();
+                    historyResponse = gson.fromJson(string, HistoryResponse.class);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+
+            @Override
+            public void onError(String response) {
+
+                Log.v("error1", response);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                Log.v("error1", t.toString());
+
+            }
+        });
     }
 }
