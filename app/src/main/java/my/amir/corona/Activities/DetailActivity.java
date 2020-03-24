@@ -1,9 +1,8 @@
 package my.amir.corona.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import my.amir.corona.Adapter.CountryAdapter;
 import my.amir.corona.Global;
-import my.amir.corona.JsonClasses.Countries.CountriesResponse;
+import my.amir.corona.Helper.Helper;
 import my.amir.corona.JsonClasses.Details.CountryDetail;
 import my.amir.corona.JsonClasses.Details.DetailResponse;
 import my.amir.corona.JsonClasses.History.HistoryResponse;
@@ -21,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.jjoe64.graphview.GraphView;
@@ -29,8 +27,9 @@ import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -92,31 +91,6 @@ public class DetailActivity extends AppCompatActivity {
             getCountryDetail();
             getCountryHistory();
         }
-
-        Calendar calendar = Calendar.getInstance();
-        Date d1 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d2 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d3 = calendar.getTime();
-
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
-                new DataPoint(d1,1),
-                new DataPoint(d2,4),
-                new DataPoint(d3,5),
-
-        });
-
-        graph.addSeries(series);
-
-//        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(DetailActivity.this));
-//        graph.getGridLabelRenderer().setNumHorizontalLabels(3);
-
-//        graph.getViewport().setMinX(d1.getTime());
-//        graph.getViewport().setMaxX(d3.getTime());
-//        graph.getViewport().setXAxisBoundsManual(true);
-
-//        graph.getGridLabelRenderer().setHumanRounding(false);
 
     }
 
@@ -210,6 +184,8 @@ public class DetailActivity extends AppCompatActivity {
                     string = response.body().string();
                     historyResponse = gson.fromJson(string, HistoryResponse.class);
 
+                    fillHistoryList(historyResponse.getStat_by_country());
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -231,5 +207,66 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    void fillHistoryList(List<CountryDetail> originList){
+
+        String day = "";
+        List<CountryDetail> newList = new ArrayList<>();
+
+        for(int i=0; i<originList.size(); i++){
+            CountryDetail current = originList.get(i);
+            String currentDay = current.getRecord_date().substring(8,10);
+
+            if(!currentDay.equalsIgnoreCase(day)){
+                day = currentDay;
+                newList.add(current);
+            }
+        }
+
+        graphPlot(newList);
+
+
+    }
+
+    void graphPlot(List<CountryDetail> list){
+
+        Date firstDate = Helper.getDate(list.get(0).getRecord_date());
+        Date lastDate = Helper.getDate(list.get(list.size()-1).getRecord_date());
+
+        double firstY = Helper.getFormattedString(list.get(0).getTotal_cases());
+        double lastY = Helper.getFormattedString(list.get(list.size()-1).getTotal_cases());
+
+        DataPoint[] dataPoints = new DataPoint[list.size()];
+
+        for(int i=0; i<list.size(); i++){
+            CountryDetail current = list.get(i);
+            Date date = Helper.getDate(current.getRecord_date());
+            if(date != null) {
+                DataPoint point = new DataPoint(date, Helper.getFormattedString(current.getTotal_cases()));
+                dataPoints[i] = point;
+            }
+        }
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPoints);
+
+
+        graph.addSeries(series);
+
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(DetailActivity.this));
+        graph.getGridLabelRenderer().setNumHorizontalLabels(list.size());
+        graph.getGridLabelRenderer().setHorizontalLabelsAngle(135);
+        graph.getGridLabelRenderer().setLabelHorizontalHeight(150);
+//
+        graph.getViewport().setMinX(firstDate.getTime());
+        graph.getViewport().setMaxX(lastDate.getTime());
+        graph.getViewport().setXAxisBoundsManual(true);
+
+//        graph.getViewport().setMinY(firstY);
+//        graph.getViewport().setMaxY(lastY);
+//        graph.getViewport().setYAxisBoundsManual(true);
+
+//
+        graph.getGridLabelRenderer().setHumanRounding(true);
     }
 }
