@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="graphItem_array">
+        <item>Total cases</item>
+        <item>Total active</item>
+        <item>Total death</item>
+        <item>Total recovered</item>
+    </string-array>
+</resources>

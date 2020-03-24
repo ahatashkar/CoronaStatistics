@@ -31,4 +31,26 @@ public class Helper {
         }
 
     }
+
+    public static String getDateToString(String dateTime){
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        try{
+
+            Date date = format.parse(dateTime);
+
+            int year = date.getYear();
+            int month = date.getMonth();
+            int day = date.getDay();
+            int hour = date.getHours();
+            int minute = date.getMinutes();
+
+            return year+"-"+month+"-"+day+" "+hour+":"+minute;
+
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

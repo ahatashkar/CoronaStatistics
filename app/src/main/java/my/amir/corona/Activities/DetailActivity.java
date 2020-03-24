@@ -3,6 +3,7 @@ package my.amir.corona.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import my.amir.corona.Global;
 import my.amir.corona.Helper.Helper;
+import my.amir.corona.Helper.Status;
 import my.amir.corona.JsonClasses.Details.CountryDetail;
 import my.amir.corona.JsonClasses.Details.DetailResponse;
 import my.amir.corona.JsonClasses.History.HistoryResponse;
@@ -18,7 +19,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -27,11 +31,12 @@ import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     LinearLayout main_linearLayout;
     TextView name_textView;
@@ -44,10 +49,12 @@ public class DetailActivity extends AppCompatActivity {
     TextView per1m_textView;
     TextView date_textView;
     GraphView graph;
+    Spinner spinner;
 
     ProgressDialog dialog;
 
     String countryName = null;
+    List<CountryDetail> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +72,16 @@ public class DetailActivity extends AppCompatActivity {
         per1m_textView = findViewById(R.id.per1m_textView);
         date_textView = findViewById(R.id.date_textView);
         graph = findViewById(R.id.graph);
+        spinner = findViewById(R.id.spinner);
 
         main_linearLayout.setVisibility(View.GONE);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.graphItem_array, android.R.layout.simple_spinner_item);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
 
 
         if (getSupportActionBar() != null){
@@ -102,6 +117,21 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+         String type = (String) parent.getItemAtPosition(pos);
+         Status.graphStatus status = Status.getGraphStatus(type);
+
+         if(status != null && list != null){
+             graphPlot(status);
+         }
+
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
     }
 
     void getCountryDetail() {
@@ -212,7 +242,7 @@ public class DetailActivity extends AppCompatActivity {
     void fillHistoryList(List<CountryDetail> originList){
 
         String day = "";
-        List<CountryDetail> newList = new ArrayList<>();
+        list = new ArrayList<>();
 
         for(int i=0; i<originList.size(); i++){
             CountryDetail current = originList.get(i);
@@ -220,22 +250,44 @@ public class DetailActivity extends AppCompatActivity {
 
             if(!currentDay.equalsIgnoreCase(day)){
                 day = currentDay;
-                newList.add(current);
+                list.add(current);
             }
         }
 
-        graphPlot(newList);
+        graphPlot(Status.graphStatus.cases);
 
 
     }
 
-    void graphPlot(List<CountryDetail> list){
+    void graphPlot(Status.graphStatus status){
 
         Date firstDate = Helper.getDate(list.get(0).getRecord_date());
         Date lastDate = Helper.getDate(list.get(list.size()-1).getRecord_date());
 
-        double firstY = Helper.getFormattedString(list.get(0).getTotal_cases());
-        double lastY = Helper.getFormattedString(list.get(list.size()-1).getTotal_cases());
+        double firstY;
+        double lastY;
+
+        switch (status){
+            case cases:
+                firstY = Helper.getFormattedString(list.get(0).getTotal_cases());
+                lastY = Helper.getFormattedString(list.get(list.size()-1).getTotal_cases());
+                break;
+
+            case death:
+                firstY = Helper.getFormattedString(list.get(0).getTotal_deaths());
+                lastY = Helper.getFormattedString(list.get(list.size()-1).getTotal_deaths());
+                break;
+
+            case active:
+                firstY = Helper.getFormattedString(list.get(0).getActive_cases());
+                lastY = Helper.getFormattedString(list.get(list.size()-1).getActive_cases());
+                break;
+
+            case recovered:
+                firstY = Helper.getFormattedString(list.get(0).getTotal_recovered());
+                lastY = Helper.getFormattedString(list.get(list.size()-1).getTotal_recovered());
+                break;
+        }
 
         DataPoint[] dataPoints = new DataPoint[list.size()];
 
@@ -243,15 +295,36 @@ public class DetailActivity extends AppCompatActivity {
             CountryDetail current = list.get(i);
             Date date = Helper.getDate(current.getRecord_date());
             if(date != null) {
-                DataPoint point = new DataPoint(date, Helper.getFormattedString(current.getTotal_cases()));
+                DataPoint point = null;
+
+                switch (status){
+                    case recovered:
+                        point = new DataPoint(date, Helper.getFormattedString(current.getTotal_recovered()));
+                        break;
+
+                    case active:
+                        point = new DataPoint(date, Helper.getFormattedString(current.getActive_cases()));
+                        break;
+
+                    case death:
+                        point = new DataPoint(date, Helper.getFormattedString(current.getTotal_deaths()));
+                        break;
+
+                    case cases:
+                        point = new DataPoint(date, Helper.getFormattedString(current.getTotal_cases()));
+                        break;
+                }
+
                 dataPoints[i] = point;
             }
         }
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPoints);
 
-
+        graph.removeAllSeries();
         graph.addSeries(series);
+
+        graph.setTitle("Total "+status.toString());
 
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(DetailActivity.this));
         graph.getGridLabelRenderer().setNumHorizontalLabels(list.size());
@@ -266,7 +339,6 @@ public class DetailActivity extends AppCompatActivity {
 //        graph.getViewport().setMaxY(lastY);
 //        graph.getViewport().setYAxisBoundsManual(true);
 
-//
         graph.getGridLabelRenderer().setHumanRounding(true);
     }
 }
