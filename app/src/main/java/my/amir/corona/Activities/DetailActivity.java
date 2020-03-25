@@ -31,7 +31,6 @@ import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -122,7 +121,7 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
          String type = (String) parent.getItemAtPosition(pos);
-         Status.graphStatus status = Status.getGraphStatus(type);
+         Status.status status = Status.getGraphStatus(type);
 
          if(status != null && list != null){
              graphPlot(status);
@@ -254,12 +253,12 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
             }
         }
 
-        graphPlot(Status.graphStatus.cases);
+        graphPlot(Status.status.cases);
 
 
     }
 
-    void graphPlot(Status.graphStatus status){
+    void graphPlot(Status.status status){
 
         Date firstDate = Helper.getDate(list.get(0).getRecord_date());
         Date lastDate = Helper.getDate(list.get(list.size()-1).getRecord_date());
@@ -269,23 +268,23 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
 
         switch (status){
             case cases:
-                firstY = Helper.getFormattedString(list.get(0).getTotal_cases());
-                lastY = Helper.getFormattedString(list.get(list.size()-1).getTotal_cases());
+                firstY = Helper.getFormattedStringToDouble(list.get(0).getTotal_cases());
+                lastY = Helper.getFormattedStringToDouble(list.get(list.size()-1).getTotal_cases());
                 break;
 
             case death:
-                firstY = Helper.getFormattedString(list.get(0).getTotal_deaths());
-                lastY = Helper.getFormattedString(list.get(list.size()-1).getTotal_deaths());
+                firstY = Helper.getFormattedStringToDouble(list.get(0).getTotal_deaths());
+                lastY = Helper.getFormattedStringToDouble(list.get(list.size()-1).getTotal_deaths());
                 break;
 
             case active:
-                firstY = Helper.getFormattedString(list.get(0).getActive_cases());
-                lastY = Helper.getFormattedString(list.get(list.size()-1).getActive_cases());
+                firstY = Helper.getFormattedStringToDouble(list.get(0).getActive_cases());
+                lastY = Helper.getFormattedStringToDouble(list.get(list.size()-1).getActive_cases());
                 break;
 
             case recovered:
-                firstY = Helper.getFormattedString(list.get(0).getTotal_recovered());
-                lastY = Helper.getFormattedString(list.get(list.size()-1).getTotal_recovered());
+                firstY = Helper.getFormattedStringToDouble(list.get(0).getTotal_recovered());
+                lastY = Helper.getFormattedStringToDouble(list.get(list.size()-1).getTotal_recovered());
                 break;
         }
 
@@ -299,19 +298,19 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
 
                 switch (status){
                     case recovered:
-                        point = new DataPoint(date, Helper.getFormattedString(current.getTotal_recovered()));
+                        point = new DataPoint(date, Helper.getFormattedStringToDouble(current.getTotal_recovered()));
                         break;
 
                     case active:
-                        point = new DataPoint(date, Helper.getFormattedString(current.getActive_cases()));
+                        point = new DataPoint(date, Helper.getFormattedStringToDouble(current.getActive_cases()));
                         break;
 
                     case death:
-                        point = new DataPoint(date, Helper.getFormattedString(current.getTotal_deaths()));
+                        point = new DataPoint(date, Helper.getFormattedStringToDouble(current.getTotal_deaths()));
                         break;
 
                     case cases:
-                        point = new DataPoint(date, Helper.getFormattedString(current.getTotal_cases()));
+                        point = new DataPoint(date, Helper.getFormattedStringToDouble(current.getTotal_cases()));
                         break;
                 }
 

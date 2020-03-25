@@ -43,17 +43,21 @@ public class Country implements Serializable {
     @Expose
     String total_cases_per_1m_population;
 
+    public Integer numRecovered;
+    public Integer numCases;
+    public Integer numDeath;
 
+    public Integer getNumRecovered() {
+        return numRecovered;
+    }
 
+    public Integer getNumCases() {
+        return numCases;
+    }
 
-
-
-
-
-
-
-
-
+    public Integer getNumDeath() {
+        return numDeath;
+    }
 
     public String getCountry_name() {
         return country_name;

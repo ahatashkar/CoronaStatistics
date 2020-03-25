@@ -20,10 +20,22 @@ public class Helper {
         }
     }
 
-    public static double getFormattedString(String string){
+    public static double getFormattedStringToDouble(String string){
 
         try {
             return DecimalFormat.getNumberInstance().parse(string).doubleValue();
+
+        } catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+
+    }
+
+    public static int getFormattedStringToLong(String string){
+
+        try {
+            return DecimalFormat.getNumberInstance().parse(string).intValue();
 
         } catch (Exception e){
             e.printStackTrace();
