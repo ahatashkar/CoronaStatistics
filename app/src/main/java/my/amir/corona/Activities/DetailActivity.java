@@ -327,13 +327,15 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
         graph.setTitle("Total "+status.toString());
 
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(DetailActivity.this));
-        graph.getGridLabelRenderer().setNumHorizontalLabels(list.size());
+//        graph.getGridLabelRenderer().setNumHorizontalLabels(6);
         graph.getGridLabelRenderer().setHorizontalLabelsAngle(135);
         graph.getGridLabelRenderer().setLabelHorizontalHeight(150);
-//
-        graph.getViewport().setMinX(firstDate.getTime());
-        graph.getViewport().setMaxX(lastDate.getTime());
-        graph.getViewport().setXAxisBoundsManual(true);
+
+        if(firstDate != null && lastDate != null) {
+            graph.getViewport().setMinX(firstDate.getTime());
+            graph.getViewport().setMaxX(lastDate.getTime());
+            graph.getViewport().setXAxisBoundsManual(true);
+        }
 
 //        graph.getViewport().setMinY(firstY);
 //        graph.getViewport().setMaxY(lastY);
