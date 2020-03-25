@@ -24,6 +24,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     CountryAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
+    LayoutAnimationController animation;
 
 
     @Override
@@ -72,6 +75,10 @@ public class MainActivity extends AppCompatActivity {
         adapter = new CountryAdapter(new ArrayList<Country>());
         recyclerView.setAdapter(adapter);
 
+
+        int resId = R.anim.layout_animation_fall_down;
+        animation = AnimationUtils.loadLayoutAnimation(MainActivity.this, resId);
+
         try {
             getSupportActionBar().setTitle("Analytics");
         }catch (Exception e){
@@ -102,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
                     countriesResponse = gson.fromJson(string, CountriesResponse.class);
 
                     adapter.updateList(countriesResponse.getCountries_stat());
+
+                    recyclerView.setLayoutAnimation(animation);
 
                     adapter.setOnItemMoreClickListener(new CountryAdapter.onMoreClickListener() {
                         @Override
