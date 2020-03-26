@@ -134,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     adapter = new CountryAdapter(searchList);
                     recyclerView.setAdapter(adapter);
                     isSearch = false;
+                    searchView.clearFocus();
                     adapter_itemClickListener();
 
                     return true;
@@ -157,6 +158,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        searchView.clearFocus();
     }
 
     void adapter_itemClickListener(){
