@@ -8,6 +8,26 @@
     android:orientation="vertical"
     tools:context=".Activities.MainActivity">
 
+    <SearchView
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Which country you are looking for?"
+        android:iconifiedByDefault="false"
+        android:queryBackground="@android:color/transparent"
+        android:focusableInTouchMode="false"
+        android:focusable="false"
+        app:queryBackground="@android:color/transparent"
+        android:layout_margin="8dp">
+
+        <requestFocus />
+    </SearchView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider2"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
