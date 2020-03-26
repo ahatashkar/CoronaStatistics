@@ -49,7 +49,7 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.myViewHo
 
         Country currentItem = list.get(position);
 
-        holder.name_textView.setText(position+1 +". "+currentItem.getCountry_name());
+        holder.name_textView.setText(currentItem.position +". "+currentItem.getCountry_name());
         holder.cases_textView.setText(currentItem.getCases());
         holder.recovered_textView.setText(currentItem.getTotal_recovered());
         holder.death_textView.setText(currentItem.getDeaths());

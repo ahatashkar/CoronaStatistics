@@ -294,6 +294,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         for(int i=0; i<countriesResponse.getCountries_stat().size(); i++){
             Country current = countriesResponse.getCountries_stat().get(i);
 
+            current.position = i+1;
             current.numCases = Helper.getFormattedStringToLong(current.getCases());
             current.numDeath = Helper.getFormattedStringToLong(current.getDeaths());
             current.numRecovered = Helper.getFormattedStringToLong(current.getTotal_recovered());
