@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class DetailActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class DetailActivity extends BaseActivity implements AdapterView.OnItemSelectedListener {
 
     Toolbar toolbar;
     LinearLayout main_linearLayout;
@@ -85,12 +85,7 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
 //        spinner.setAdapter(adapter);
 //        spinner.setOnItemSelectedListener(this);
 
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-
+        setToolbar(toolbar);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -111,15 +106,6 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // handle arrow click here
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {

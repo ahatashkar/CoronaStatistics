@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity
         spinner.setOnItemSelectedListener(this);
 
         try {
-            getSupportActionBar().setTitle("Analytics");
+            getSupportActionBar().setTitle("Statistics");
         }catch (Exception e){
             e.printStackTrace();
         }
