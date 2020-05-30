@@ -1,6 +1,7 @@
 package my.amir.corona.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import my.amir.corona.Global;
 import my.amir.corona.Helper.Helper;
 import my.amir.corona.Helper.Status;
@@ -37,6 +38,7 @@ import java.util.List;
 
 public class DetailActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    Toolbar toolbar;
     LinearLayout main_linearLayout;
     TextView name_textView;
     TextView cases_textView;
@@ -60,6 +62,7 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        toolbar = findViewById(R.id.toolbar);
         main_linearLayout = findViewById(R.id.main_linearLayout);
         name_textView = findViewById(R.id.name_textView);
         cases_textView = findViewById(R.id.cases_textView);
@@ -82,7 +85,7 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
 //        spinner.setAdapter(adapter);
 //        spinner.setOnItemSelectedListener(this);
 
-
+        setSupportActionBar(toolbar);
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
